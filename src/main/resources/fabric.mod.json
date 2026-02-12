@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "tpask",
+  "version": "${version}",
+  "name": "TeleportRequest",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "GPL-3.0-only",
+  "icon": "assets/tpask/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "xyz.asayu233.tpask.TeleportRequest::INSTANCE"
+    ]
+  },
+  "depends": {
+    "fabricloader": "*",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
