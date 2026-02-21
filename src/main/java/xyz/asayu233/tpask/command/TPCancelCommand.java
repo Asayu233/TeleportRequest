@@ -12,6 +12,7 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
+import xyz.asayu233.tpask.manager.ConfigManager;
 import xyz.asayu233.tpask.manager.RequestManager;
 
 import java.util.List;
@@ -23,16 +24,18 @@ public final class TPCancelCommand {
     private TPCancelCommand() {}
 
     public static void register(@NotNull CommandDispatcher<CommandSourceStack> dispatcher) {
-        for (String alias : aliases)
-            dispatcher.register(Commands
-                .literal(alias)
-                .requires(CommandSourceStack::isPlayer)
-                .then(Commands
-                    .argument("player", EntityArgument.player())
-                    .suggests(TPCancelCommand::suggests)
-                    .executes(TPCancelCommand::execute)
-                )
-            );
+        if (ConfigManager.INSTANCE.getConfig().isRequestEnabled()) {
+            for (String alias : aliases)
+                dispatcher.register(Commands
+                    .literal(alias)
+                    .requires(CommandSourceStack::isPlayer)
+                    .then(Commands
+                        .argument("player", EntityArgument.player())
+                        .suggests(TPCancelCommand::suggests)
+                        .executes(TPCancelCommand::execute)
+                    )
+                );
+        }
     }
 
     private static CompletableFuture<Suggestions> suggests(@NotNull CommandContext<CommandSourceStack> context,

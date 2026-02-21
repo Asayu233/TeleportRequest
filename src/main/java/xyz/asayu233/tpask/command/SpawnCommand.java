@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.levelgen.Heightmap;
 import org.jetbrains.annotations.NotNull;
+import xyz.asayu233.tpask.manager.ConfigManager;
 
 import java.util.List;
 import java.util.Set;
@@ -19,12 +20,14 @@ public final class SpawnCommand {
     private SpawnCommand() {}
 
     public static void register(@NotNull CommandDispatcher<CommandSourceStack> dispatcher) {
-        for (var alias : aliases)
-            dispatcher.register(Commands
-                .literal(alias)
-                .requires(CommandSourceStack::isPlayer)
-                .executes(SpawnCommand::execute)
-            );
+        if (ConfigManager.INSTANCE.getConfig().isSpawnEnabled()) {
+            for (var alias : aliases)
+                dispatcher.register(Commands
+                    .literal(alias)
+                    .requires(CommandSourceStack::isPlayer)
+                    .executes(SpawnCommand::execute)
+                );
+        }
     }
 
     private static int execute(@NotNull CommandContext<CommandSourceStack> context) throws CommandSyntaxException {

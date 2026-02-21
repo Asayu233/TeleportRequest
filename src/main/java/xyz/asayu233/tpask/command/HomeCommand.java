@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.portal.TeleportTransition;
 import org.jetbrains.annotations.NotNull;
+import xyz.asayu233.tpask.manager.ConfigManager;
 
 import java.util.List;
 
@@ -18,12 +19,14 @@ public final class HomeCommand {
     private HomeCommand() {}
 
     public static void register(@NotNull CommandDispatcher<CommandSourceStack> dispatcher) {
-        for (var alias : aliases)
-            dispatcher.register(Commands
-                .literal(alias)
-                .requires(CommandSourceStack::isPlayer)
-                .executes(HomeCommand::execute)
-            );
+        if (ConfigManager.INSTANCE.getConfig().isHomeEnabled()) {
+            for (var alias : aliases)
+                dispatcher.register(Commands
+                    .literal(alias)
+                    .requires(CommandSourceStack::isPlayer)
+                    .executes(HomeCommand::execute)
+                );
+        }
     }
 
     private static int execute(@NotNull CommandContext<CommandSourceStack> context) throws CommandSyntaxException {

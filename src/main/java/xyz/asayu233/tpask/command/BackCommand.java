@@ -7,6 +7,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
+import xyz.asayu233.tpask.manager.ConfigManager;
 import xyz.asayu233.tpask.manager.MessageManager;
 
 import java.util.List;
@@ -18,12 +19,15 @@ public final class BackCommand {
     private BackCommand() {}
 
     public static void register(@NotNull CommandDispatcher<CommandSourceStack> dispatcher) {
-        for (var alias : aliases)
-            dispatcher.register(Commands
-                .literal(alias)
-                .requires(CommandSourceStack::isPlayer)
-                .executes(BackCommand::execute)
-            );
+        if (ConfigManager.INSTANCE.getConfig().isBackEnabled()) {
+            for (var alias : aliases) {
+                dispatcher.register(Commands
+                    .literal(alias)
+                    .requires(CommandSourceStack::isPlayer)
+                    .executes(BackCommand::execute)
+                );
+            }
+        }
     }
 
     private static int execute(@NotNull CommandContext<CommandSourceStack> context) throws CommandSyntaxException {

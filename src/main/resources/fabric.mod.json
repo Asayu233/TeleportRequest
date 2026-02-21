@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "tpask",
+  "id": "tpreq",
   "version": "${version}",
   "name": "TeleportRequest",
   "description": "",
